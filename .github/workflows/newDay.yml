@@ -50,7 +50,7 @@ jobs:
       - name: Push branch to origin
         if: steps.run-second-js.outcome == 'success'
         run: 
-          git push origin feature updated-files
+          git push origin feature/updated-files
 
       - name: Create Pull Request
         if: steps.run-second-js.outcome == 'success'
