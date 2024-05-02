@@ -21,7 +21,7 @@ jobs:
         id: run-first-js
         run: 
           output=$(node scripts/js/firstJs.js)
-          echo "isSuccess = $output"
+          echo "isSuccess = $(output)"
 
       - name: Ensure 'main' Branch Exists and is Up-to-Date
         run: |
