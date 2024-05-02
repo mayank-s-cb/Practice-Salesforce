@@ -1,5 +1,3 @@
-const process = require('process');
-
 const fs = require('fs').promises; // Use fs.promises for async file operations
 
 async function readXmlFile(filePath) {
@@ -13,7 +11,7 @@ async function readXmlFile(filePath) {
     }
 }
 
-async function main(){
+async function main(firstJsValue , filePath){
     readXmlFile(filePath)
     .then( data => {
         var newData = data.toString()+firstJsValue;
@@ -23,7 +21,6 @@ async function main(){
 
   
   // Retrieve the string value passed from the GitHub Action
-  //const stringValue = process.env.newData;
-  const stringValue = 'New Data';
+  const stringValue = ' New Data';
   
   main(stringValue, './newDay.txt')
