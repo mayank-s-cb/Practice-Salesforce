@@ -62,7 +62,12 @@ jobs:
 
       - name: Create Pull Request
         if: steps.push-changes.outcome == 'success'
-        run: 
-          gh pr create -B main -H feature/updated-files --title 'Merge feature/updated-files into main' --body 'Created by Github action'
-        env:
-          GH_TOKEN: ${{ github.token }}
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "File Updated"
+          title: "Update File"
+          branch: feature/updated-files
+          base: main
+          body: |
+            This file modified then context of newday.txt file.
