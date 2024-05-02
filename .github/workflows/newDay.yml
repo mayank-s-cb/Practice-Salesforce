@@ -44,7 +44,7 @@ jobs:
           
       - name: commit changes
         id: commit-changes
-        if: steps.make-changes.outcome == 'success'
+        if: steps.new-changes.outcome == 'success'
         run: |
           git add .
           git commit -m "Commit from action"
