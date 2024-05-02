@@ -21,6 +21,11 @@ jobs:
         run: 
           node scripts/js/changeFile.js
 
+      - name: Ensure 'main' Branch Exists and is Up-to-Date
+        run: |
+          git fetch origin main
+          git branch main origin/main
+
       - name: create new branch
         run: |
           git checkout -b updated-files main
