@@ -1,3 +1,4 @@
+const core = require('@actions/core');
 const fs = require('fs').promises; // Use fs.promises for async file operations
 
 async function readXmlFile(filePath) {
@@ -15,7 +16,9 @@ async function main(firstJsValue , filePath){
     readXmlFile(filePath)
     .then( data => {
         var newData = data.toString()+firstJsValue;
-        fs.writeFile(filePath, newData);
+        console.log(newData);
+        core.setOutput('newFile',newData);
+        //fs.writeFile(filePath, newData);
     })
 }
 

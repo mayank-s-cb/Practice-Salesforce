@@ -21,39 +21,49 @@ jobs:
         id: run-first-js
         run: 
           output=$(node scripts/js/firstJs.js)
-          echo "isSuccess = $(output)"
+          echo "isSuccess = ${{ steps.run-first-js.outputs.isSuccess}}"
+
+      - name: Get new changes
+        if: ${{ steps.run-first-js.outputs.isSuccess == 'true'}}
+        id: new-changes
+        run: 
+          output=$(node scripts/js/secondJs.js)
+          echo "new change = ${{ steps.new-changes.outputs.newChange}}"
 
       - name: Ensure 'main' Branch Exists and is Up-to-Date
+        id: get-main
+        if: steps.new-changes.outcome == 'success'
         run: |
           git fetch origin main
 
       - name: create new branch
         id: create-branch
-        if: ${{ steps.run-first-js.outputs.isSuccess == 'true'}}
+        if: steps.get-main.outcome == 'success'
         run: |
           git checkout -b feature/updated-files main
           echo "Branch 'feature/updated-files' create and pushed successfuly"
-          
-      - name: Run Second JS Script
-        id: run-second-js
-        if: steps.create-branch.outcome == 'success'
-        run: |
-          node scripts/js/secondJs.js
 
+      - name: make changes
+        id: make-changes
+        run: echo "${{ steps.new-changes.outputs.newChange}}" > ./newDay.txt
+          
       - name: commit changes
-        if: steps.run-second-js.outcome == 'success'
+        id: commit-changes
+        if: steps.make-changes.outcome == 'success'
         run: |
           git add .
           git commit -m "Commit from action"
           echo "Changes committed successfully"
 
       - name: Push branch to origin
-        if: steps.run-second-js.outcome == 'success'
-        run: 
-          git push origin feature/updated-files
+        id: push-changes
+        if: steps.commit-changes.outcome == 'success'
+        uses: ad-m/github-push-action@v0.7.0
+        with: 
+          branch: feature/updated-files
 
       - name: Create Pull Request
-        if: steps.run-second-js.outcome == 'success'
+        if: steps.push-changes.outcome == 'success'
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
