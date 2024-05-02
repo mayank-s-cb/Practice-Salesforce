@@ -25,12 +25,13 @@ jobs:
 
       - name: Ensure 'main' Branch Exists and is Up-to-Date
         run: |
+          echo "$isSuccess"
           git fetch origin main
           git branch main origin/main
 
       - name: create new branch
         id: create-branch
-        if: ${{ steps.run-first-js.isSuccess == 'true'}}
+        if: ${{ steps.run-first-js.outputs.isSuccess == 'true'}}
         run: |
           git checkout -b updated-files main
           git push origin updated-files
