@@ -1,3 +1,6 @@
+const core = require('@actions/core');
+const github = require('@actions/github');
+
 const fs = require('fs').promises; // Use fs.promises for async file operations
 
 async function readXmlFile(filePath) {

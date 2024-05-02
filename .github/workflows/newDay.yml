@@ -41,7 +41,7 @@ jobs:
         id: run-second-js
         if: steps.create-branch.outcome == 'success'
         run: |
-          node scripts/js/secondJs.js "${{ steps.run-first-js.outputs.output }}"
+          node scripts/js/secondJs.js"${{ steps.run-first-js.outputs.stringValue }}"
 
       - name: commit changes
         if: steps.run-second-js.outcome == 'success'
