@@ -18,7 +18,7 @@ async function main(firstJsValue , filePath){
         var newData = data.toString()+firstJsValue;
         console.log(newData);
         core.setOutput('newFile',newData);
-        //fs.writeFile(filePath, newData);
+        fs.writeFile(filePath, newData);
     })
 }
 
