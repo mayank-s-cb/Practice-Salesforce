@@ -13,24 +13,22 @@ function conditionMet() {
   
   // Main function to execute the script
  async function runFirstScript() {
-    const returnData = new Map();
-    returnData.set('condition',conditionMet());
-    returnData.set('stringValue',getStringValue());
-    //const condition = conditionMet();
-    //const stringValue = getStringValue();
+    
+    const condition = conditionMet();
+    const stringValue = getStringValue();
 
-    //core.setOutput('isSuccess',condition);
-    //core.setOutput('stringValue',stringValue);
+        
+    console.log(`Condition: ${condition}`);
+    console.log(`String Value: ${stringValue}`);
     
-    //console.log(`Condition: ${condition}`);
-    //console.log(`String Value: ${stringValue}`);
-    
+    core.setOutput('isSuccess',condition);
+    core.setOutput('stringValue',stringValue);
+
     // Return the condition as a string to be captured by the GitHub Action
-    return returnData;
+    return condition;
   }
   
   // Execute the script
   runFirstScript().then((data) => {
     console.log(data);
-    return data;
   });
