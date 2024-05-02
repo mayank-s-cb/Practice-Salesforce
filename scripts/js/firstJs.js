@@ -1,3 +1,6 @@
+const core = require('@actions/core');
+//const github = require('@actions/github');
+
 function conditionMet() {
     // Your logic to determine if the condition is met
     return true; // For demonstration purposes, always return true
@@ -12,6 +15,9 @@ function conditionMet() {
   function runFirstScript() {
     const condition = conditionMet();
     const stringValue = getStringValue();
+
+    core.setOutput('isSuccess',condition);
+    core.setOutput('stringValue',stringValue);
     
     console.log(`Condition: ${condition}`);
     console.log(`String Value: ${stringValue}`);
