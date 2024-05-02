@@ -22,6 +22,7 @@ jobs:
         run: 
           output=$(node scripts/js/firstJs.js)
           echo "::set-output name=output::$output"
+          echo "{isSuccess}={$output}"
 
       - name: Ensure 'main' Branch Exists and is Up-to-Date
         run: |
@@ -30,7 +31,7 @@ jobs:
 
       - name: create new branch
         id: create-branch
-        if: ${{ steps.run-first-js.outputs.output == 'true'}}
+        if: ${{ steps.run-first-js.isSuccess == 'true'}}
         run: |
           git checkout -b updated-files main
           git push origin updated-files
