@@ -27,6 +27,13 @@ jobs:
         run: |
           git fetch origin main
 
+      - name: create new branch
+        id: create-branch
+        if: ${{ steps.run-first-js.outputs.isSuccess == 'true'}}
+        run: |
+          git checkout -b updated-files
+          echo "Branch 'updated-files' create and pushed successfuly"
+
       - name: Run Second JS Script
         id: run-second-js
         if: steps.create-branch.outcome == 'success'
