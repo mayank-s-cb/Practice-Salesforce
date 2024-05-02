@@ -25,7 +25,7 @@ jobs:
 
       - name: Ensure 'main' Branch Exists and is Up-to-Date
         id: get-main
-        if: steps.new-changes.outcome == 'success'
+        if: steps.run-first-js.outcome == 'success'
         run: |
           git fetch origin main
 
