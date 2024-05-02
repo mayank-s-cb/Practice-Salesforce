@@ -58,9 +58,7 @@ jobs:
       - name: Push branch to origin
         id: push-changes
         if: steps.commit-changes.outcome == 'success'
-        uses: ad-m/github-push-action@v0.7.0
-        with: 
-          branch: feature/updated-files
+        run: git push --force
 
       - name: Create Pull Request
         if: steps.push-changes.outcome == 'success'
