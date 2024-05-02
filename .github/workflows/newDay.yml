@@ -21,10 +21,15 @@ jobs:
         run: 
           node scripts/js/changeFile.js
 
+      - name: create new branch
+        run: |
+        git checkout -b updated-files main
+        git push origin updated-files
+
       - name: commit changes
         run: |
           git add .
-          git commit -m "Update files"
+          git commit -m "Commit from action"
 
       - name: Push Changes
         uses: ad-m/github-push-action@v0.7.0
