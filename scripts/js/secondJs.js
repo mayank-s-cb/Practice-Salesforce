@@ -1,5 +1,4 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
+const process = require('process');
 
 const fs = require('fs').promises; // Use fs.promises for async file operations
 
@@ -14,7 +13,7 @@ async function readXmlFile(filePath) {
     }
 }
 
-async function main(firstJsValue , filePath){
+async function main(process.env.newData , filePath){
     readXmlFile(filePath)
     .then( data => {
         var newData = data.toString()+firstJsValue;
