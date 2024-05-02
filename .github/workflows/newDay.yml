@@ -1,0 +1,43 @@
+name: This is new one
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "Mayank Shrivastava"
+          git config --global user.email "mayank.shrivastava@coinbase.com"
+          
+      - name: Run Js
+        id: run-js
+        run: 
+          node scripts/js/changeFile.js
+
+      - name: commit changes
+        run: |
+          git add.
+          git commit -m "Update files"
+
+      - name: Push Changes
+        uses: ad-m/github-push-action@v0.7.0
+        with:
+          branch: updated-files
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "File Updated"
+          title: "Update File"
+          branch: updated-files
+          base: main
+          body: |
+            This file modified then context of newday.txt file.
