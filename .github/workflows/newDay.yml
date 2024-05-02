@@ -28,9 +28,9 @@ jobs:
 
       - name: create new branch
         run: |
-          git stash pop
           git checkout -b updated-files main
           git push origin updated-files
+          git stash pop
 
       - name: commit changes
         run: |
