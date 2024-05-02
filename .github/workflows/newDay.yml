@@ -1,4 +1,4 @@
-name: This is new one
+name: Create a PR
 
 on:
   push:
@@ -17,9 +17,10 @@ jobs:
           git config --global user.email "mayank.shrivastava@coinbase.com"
           
       - name: Run Js
-        id: run-js
+        id: run-first-js
         run: 
-          node scripts/js/changeFile.js
+          output=$(node scripts/js/firstJs.js)
+          echo "::set-output name=output::$output"
 
       - name: Ensure 'main' Branch Exists and is Up-to-Date
         run: |
@@ -27,22 +28,36 @@ jobs:
           git branch main origin/main
 
       - name: create new branch
+        id: create-branch
+        if: $({ steps.run-first-js.outputs.output == 'true'})
         run: |
           git checkout -b updated-files main
-          git stash pop
           git push origin updated-files
+          echo "Branch 'updated-files' create and pushed successfuly"
+
+      - name: Run Second JS Script
+        id: run-second-js
+        if: steps.create-branch.outcome == 'success'
+        run: |
+          node scripts/js/secondJs.js "${{ steps.run-first-js.outputs.output }}"
 
       - name: commit changes
+        if: steps.run-second-js.outcome == 'success'
         run: |
           git add .
           git commit -m "Commit from action"
+          echo "Changes committed successfully"
 
       - name: Push Changes
+        if: steps.run-second-js.outcome == 'success'
         uses: ad-m/github-push-action@v0.7.0
         with:
           branch: updated-files
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Pull Request
+        if: steps.run-second-js.outcome == 'success'
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
