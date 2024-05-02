@@ -58,7 +58,7 @@ jobs:
       - name: Push branch to origin
         id: push-changes
         if: steps.commit-changes.outcome == 'success'
-        run: git push --set-upstream origin feature/updated-files
+        run: git push --set-upstream origin feature/updated-files --force
 
       - name: Create Pull Request
         if: steps.push-changes.outcome == 'success'
