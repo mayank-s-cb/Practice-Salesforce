@@ -23,8 +23,8 @@ jobs:
 
       - name: create new branch
         run: |
-        git checkout -b updated-files main
-        git push origin updated-files
+          git checkout -b updated-files main
+          git push origin updated-files
 
       - name: commit changes
         run: |
