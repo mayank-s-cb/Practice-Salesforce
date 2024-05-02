@@ -47,15 +47,8 @@ jobs:
           git commit -m "Commit from action"
           echo "Changes committed successfully"
 
-      - name: Push Changes
-        if: steps.run-second-js.outcome == 'success'
-        uses: ad-m/github-push-action@v0.7.0
-        with:
-          branch: feature/updated-files
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Push branch to origin
+        if: steps.run-second-js.outcome == 'success'
         run: 
           git push origin feature updated-files
 
