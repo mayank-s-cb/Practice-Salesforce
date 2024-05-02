@@ -45,7 +45,7 @@ jobs:
 
       - name: make changes
         id: make-changes
-        run: echo "${{ steps.new-changes.outputs.newFile}}" > ./newDay.txt
+        run: echo "Hello World" > ./newDay.txt
           
       - name: commit changes
         id: commit-changes
