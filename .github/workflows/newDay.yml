@@ -21,7 +21,8 @@ jobs:
         id: run-first-js
         run: 
           output=$(node scripts/js/firstJs.js)
-          echo "isSuccess = $(output)"
+          echo "isSuccess = $(output.condition)" >> $GITHUB_ENV
+          echo "message = $(output.stringValue)" >> $GITHUB_ENV
 
       - name: Ensure 'main' Branch Exists and is Up-to-Date
         run: |
@@ -31,17 +32,18 @@ jobs:
 
       - name: create new branch
         id: create-branch
-        if: ${{ steps.run-first-js.outputs.isSuccess == 'true'}}
+        if: ${{ env.isSuccess }}
         run: |
           git checkout -b updated-files main
           git push origin updated-files
+          echo ${{ env.message }}
           echo "Branch 'updated-files' create and pushed successfuly"
 
       - name: Run Second JS Script
         id: run-second-js
         if: steps.create-branch.outcome == 'success'
         run: |
-          node scripts/js/secondJs.js"${{ steps.run-first-js.outputs.stringValue }}"
+          node scripts/js/secondJs.js" ${{ steps.run-first-js.outputs.stringValue }}"
 
       - name: commit changes
         if: steps.run-second-js.outcome == 'success'
