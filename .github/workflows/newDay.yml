@@ -41,7 +41,6 @@ jobs:
         id: run-second-js
         if: steps.create-branch.outcome == 'success'
         run: |
-          echo "newData = ${{ steps.run-first-js.outputs.stringValue }}" >> $GITHUB_ENV
           node scripts/js/secondJs.js
 
       - name: commit changes

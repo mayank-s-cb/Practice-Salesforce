@@ -14,7 +14,6 @@ async function readXmlFile(filePath) {
 }
 
 async function main(){
-    const filePath =process.env.newData;
     readXmlFile(filePath)
     .then( data => {
         var newData = data.toString()+firstJsValue;
@@ -24,6 +23,7 @@ async function main(){
 
   
   // Retrieve the string value passed from the GitHub Action
-  const stringValue = process.argv[2];
+  //const stringValue = process.env.newData;
+  const stringValue = 'New Data';
   
   main(stringValue, './newDay.txt')
