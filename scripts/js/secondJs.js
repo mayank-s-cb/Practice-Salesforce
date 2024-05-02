@@ -13,7 +13,8 @@ async function readXmlFile(filePath) {
     }
 }
 
-async function main(process.env.newData , filePath){
+async function main(){
+    const filePath =process.env.newData;
     readXmlFile(filePath)
     .then( data => {
         var newData = data.toString()+firstJsValue;
