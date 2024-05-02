@@ -23,7 +23,7 @@ jobs:
 
       - name: commit changes
         run: |
-          git add.
+          git add .
           git commit -m "Update files"
 
       - name: Push Changes
