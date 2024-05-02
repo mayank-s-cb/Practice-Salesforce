@@ -30,9 +30,15 @@ jobs:
           output=$(node scripts/js/secondJs.js)
           echo "new change = ${{ steps.new-changes.outputs.newChange}}"
 
+      - name: Ensure 'main' Branch Exists and is Up-to-Date
+        id: get-main
+        if: steps.new-changes.outcome == 'success'
+        run: |
+          git fetch origin main
+
       - name: create new branch
         id: create-branch
-        if: steps.new-changes.outcome == 'success'
+        if: steps.get-main.outcome == 'success'
         run: |
           git checkout -b feature/updated-files main
           echo "Branch 'feature/updated-files' create and pushed successfuly"
