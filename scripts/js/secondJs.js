@@ -24,6 +24,6 @@ async function main(){
   
   // Retrieve the string value passed from the GitHub Action
   //const stringValue = process.env.newData;
-  const stringValue = 'New Data';
+  const stringValue = '\n// New Data';
   
-  main(stringValue, './newDay.txt')
+  main(stringValue, 'scripts/apex/hello.apex')
