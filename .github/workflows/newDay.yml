@@ -56,7 +56,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push branch to origin
-        run: git push origin updated-files
+        run: 
+          git pull
+          git push origin updated-files
 
       - name: Create Pull Request
         if: steps.run-second-js.outcome == 'success'
