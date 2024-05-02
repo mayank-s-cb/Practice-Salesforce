@@ -2,6 +2,7 @@ name: Create a PR
 
 on:
   push:
+  workflow_dispatch:
 
 jobs:
   create-pr:
@@ -29,7 +30,7 @@ jobs:
 
       - name: create new branch
         id: create-branch
-        if: $({ steps.run-first-js.outputs.output == 'true'})
+        if: ${{ steps.run-first-js.outputs.output == 'true'}}
         run: |
           git checkout -b updated-files main
           git push origin updated-files
