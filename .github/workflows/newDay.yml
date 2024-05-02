@@ -1,9 +1,7 @@
 name: Create a PR
 
 on:
-  push:
   workflow_call:
-  workflow_dispatch:
 
 jobs:
   create-pr:
@@ -26,9 +24,7 @@ jobs:
 
       - name: Ensure 'main' Branch Exists and is Up-to-Date
         run: |
-          echo "$isSuccess"
           git fetch origin main
-          git branch main origin/main
 
       - name: create new branch
         id: create-branch
