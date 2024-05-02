@@ -1,0 +1,21 @@
+.sfdx
+.sf
+.vscode
+.DS_Store
+env.mk
+env.sh
+local.mk
+.sfpowerscripts
+demo/
+impacted-release-configs.json
+# Dependency directories
+node_modules/
+# local package.xml
+package.xml
+.testresults/
+artifacts
+payloads.json
+input.json
+input.json
+creds.json
+results.json
