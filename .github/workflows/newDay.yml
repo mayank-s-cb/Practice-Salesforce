@@ -1,0 +1,71 @@
+name: Create a PR
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "Someone"
+          git config --global user.email "someone@somewhere.com"
+          
+      - name: Run Js
+        id: run-first-js
+        run: 
+          output=$(node scripts/js/firstJs.js)
+          echo "isSuccess = $(output)"
+
+      - name: Ensure 'main' Branch Exists and is Up-to-Date
+        run: |
+          echo "$isSuccess"
+          git fetch origin main
+          git branch main origin/main
+
+      - name: create new branch
+        id: create-branch
+        if: ${{ steps.run-first-js.outputs.isSuccess == 'true'}}
+        run: |
+          git checkout -b updated-files
+          git push origin updated-files
+          echo "Branch 'updated-files' create and pushed successfuly"
+
+      - name: Run Second JS Script
+        id: run-second-js
+        if: steps.create-branch.outcome == 'success'
+        run: |
+          node scripts/js/secondJs.js
+
+      - name: commit changes
+        if: steps.run-second-js.outcome == 'success'
+        run: |
+          git add .
+          git commit -m "Commit from action"
+          echo "Changes committed successfully"
+
+      - name: Push Changes
+        if: steps.run-second-js.outcome == 'success'
+        uses: ad-m/github-push-action@v0.7.0
+        with:
+          branch: updated-files
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request
+        if: steps.run-second-js.outcome == 'success'
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "File Updated"
+          title: "Update File"
+          branch: updated-files
+          base: main
+          body: |
+            This file modified then context of newday.txt file.
