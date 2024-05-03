@@ -18,20 +18,14 @@ jobs:
           git config --global user.email "someone@somewhere.com"
           
       - name: Run Js
-        id: run-first-js
+        id: Track and update github action ip ranges
         run: 
-          output=$(node scripts/js/firstJs.js)
-          echo "isSuccess = ${{ steps.run-first-js.outputs.isSuccess}}"
-          
-      - name: Get new changes
-        if: ${{ steps.run-first-js.outputs.isSuccess == 'true'}}
-        id: new-changes
-        run: 
-          node scripts/js/secondJs.js          
+          output=$(node scripts/js/checkGithubIpRanges.js)
+          echo "isSuccess = ${{ steps.run-first-js.outputs.updateNeeded}}"         
 
-      - name: Ensure 'main' Branch Exists and is Up-to-Date
+      - name: Checkout main
         id: get-main
-        if: steps.run-first-js.outcome == 'success'
+        if: ${{ steps.run-first-js.outputs.updateNeeded == 'true'}}
         run: |
           git fetch origin main
 
@@ -47,15 +41,8 @@ jobs:
         if: steps.new-changes.outcome == 'success'
         run: |
           git add .
-          git commit -m "Commit from action"
+          git commit -m "Ip Ranges updated on profile"
           echo "Changes committed successfully"
-
-      - name: Confirm Changes
-        id: run-third-js
-        if: steps.commit-changes.outcome == 'success'
-        run: 
-          output=$(node scripts/js/thirdJs.js)
-          echo "changes = ${{ steps.run-third-js.outputs.newFile}}"
 
       - name: Push branch to origin
         id: push-changes
@@ -69,4 +56,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: No update required
+        if: ${{ steps.run-first-js.outputs.updateNeeded == 'false'}}
+        run: echo "Profile up to date with github ip ranges"
 
