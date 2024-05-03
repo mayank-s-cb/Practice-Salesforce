@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true })
 const fs = require('fs').promises; // Use fs.promises for async file operations
 
 function myFunction(){
