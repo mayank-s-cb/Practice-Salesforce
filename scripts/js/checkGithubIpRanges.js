@@ -124,7 +124,8 @@ class utility{
 
             var updatedProfileXml = prettifyXml(convert.json2xml(this.profileJson, {compact: true}), { indent: 4, newline: '\n' }); // options is optional
             core.setOutput('updateNeeded',true);
-            fs.writeFile(xmlFilePath, updatedProfileXml);
+            core.setOutput('updatedProfile', updatedProfileXml);
+            //fs.writeFile(xmlFilePath, updatedProfileXml);
             return updatedProfileXml;
         }else{
             core.setOutput('updateNeeded',false);

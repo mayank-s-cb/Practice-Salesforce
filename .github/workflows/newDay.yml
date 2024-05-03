@@ -26,15 +26,14 @@ jobs:
           git config --global user.email "someone@somewhere.com"
           
       - name: Track and update github action ip ranges
-        id: run-first-js
+        id: track-update-profile
         if: ${{steps.dependencies.outcome}} == 'success'
         run: 
           output=$(node scripts/js/checkGithubIpRanges.js)
-          echo "isSuccess = ${{ steps.run-first-js.outputs.updateNeeded}}"         
 
       - name: Checkout main
         id: get-main
-        if: ${{ steps.run-first-js.outputs.updateNeeded == 'true'}}
+        if: ${{ steps.track-update-profile.outputs.updateNeeded == 'true'}}
         run: |
           git fetch origin main
 
@@ -44,6 +43,10 @@ jobs:
         run: |
           git checkout -b feature/updated-files main
           echo "Branch 'feature/updated-files' create and pushed successfuly"
+
+      - name: update profile xml
+        if: 
+        run: echo ${{steps.track-update-profile.outputs.updatedProfile}} >> ./force-app/main/default/profiles/DX Integration Ip test profile.profile-meta.xml
           
       - name: commit changes
         id: commit-changes
