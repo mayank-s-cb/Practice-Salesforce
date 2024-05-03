@@ -61,22 +61,5 @@ jobs:
         id: push-changes
         if: steps.commit-changes.outcome == 'success'
         run: git push --set-upstream origin feature/updated-files --force
-  
-  Open-PR:
-    needs: Make-changes
-    runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Commit from GitHub Actions"
-          title: "Pull Request Title"
-          body: "Description of the changes made in this pull request."
-          branch: feature/updated-files
-          base: main
 
