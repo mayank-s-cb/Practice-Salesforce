@@ -50,6 +50,13 @@ jobs:
           git commit -m "Commit from action"
           echo "Changes committed successfully"
 
+      - name: Confirm Changes
+        id: run-third-js
+        if: steps.commit-changes.outcome == 'success'
+        run: 
+          output=$(node scripts/js/firstJs.js)
+          echo "changes = ${{ steps.run-third-js.outputs.newFile}}"
+
       - name: Push branch to origin
         id: push-changes
         if: steps.commit-changes.outcome == 'success'
