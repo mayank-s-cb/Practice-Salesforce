@@ -67,6 +67,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "Someone"
+          git config --global user.email "someone@somewhere.com"
+          
       - name: Open PR
         run: 
           gh pr create -B main -H feature/updated-files --title 'Merge feature/updated-files into main' --body 'Created by Github action'
