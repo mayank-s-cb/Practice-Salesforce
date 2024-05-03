@@ -70,14 +70,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Git
-        run: |
-          git config --global user.name "Someone"
-          git config --global user.email "someone@somewhere.com"
-          
-      - name: Open PR
-        run: 
-          gh pr create -B main -H feature/updated-files --title 'Merge feature/updated-files into main' --body 'Created by Github action'
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Commit from GitHub Actions"
+          title: "Pull Request Title"
+          body: "Description of the changes made in this pull request."
+          branch: $branch_name
+          base: main
 
