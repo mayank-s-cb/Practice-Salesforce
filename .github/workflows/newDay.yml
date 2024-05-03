@@ -77,6 +77,6 @@ jobs:
           commit-message: "Commit from GitHub Actions"
           title: "Pull Request Title"
           body: "Description of the changes made in this pull request."
-          branch: $branch_name
+          branch: feature/updated-files
           base: main
 
