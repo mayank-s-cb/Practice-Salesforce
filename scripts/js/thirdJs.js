@@ -12,7 +12,7 @@ async function readXmlFile(filePath) {
     }
 }
 
-async function main(firstJsValue , filePath){
+async function main(filePath){
     readXmlFile(filePath)
     .then( data => {
         console.log(data.toString());

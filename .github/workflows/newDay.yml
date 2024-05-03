@@ -54,7 +54,7 @@ jobs:
         id: run-third-js
         if: steps.commit-changes.outcome == 'success'
         run: 
-          output=$(node scripts/js/firstJs.js)
+          output=$(node scripts/js/thirdJs.js)
           echo "changes = ${{ steps.run-third-js.outputs.newFile}}"
 
       - name: Push branch to origin
