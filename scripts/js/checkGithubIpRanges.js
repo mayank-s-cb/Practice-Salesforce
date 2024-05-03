@@ -133,7 +133,7 @@ class utility{
     }
 }
 
-const xmlFilePath = '/Users/mayank/Documents/Org/Practice Salesforce/force-app/main/default/profiles/DX Integration Ip test profile.profile-meta.xml';
+const xmlFilePath = '/force-app/main/default/profiles/DX Integration Ip test profile.profile-meta.xml';
 const githubMetaApiUrl = 'https://api.github.com/meta';
 const util = new utility(xmlFilePath, githubMetaApiUrl);
 util.main();
