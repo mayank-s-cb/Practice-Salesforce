@@ -45,12 +45,13 @@ jobs:
           echo "Branch 'feature/updated-files' create and pushed successfuly"
 
       - name: update profile xml
-        if: 
+        id: make-changes
+        if: ${{steps.create-branch.outcome}}='success'
         run: echo ${{steps.track-update-profile.outputs.updatedProfile}} >> ./force-app/main/default/profiles/DX Integration Ip test profile.profile-meta.xml
           
       - name: commit changes
         id: commit-changes
-        if: steps.new-changes.outcome == 'success'
+        if: steps.make-changes.outcome == 'success'
         run: |
           git add .
           git commit -m "Ip Ranges updated on profile"
