@@ -22,6 +22,12 @@ jobs:
         run: 
           output=$(node scripts/js/firstJs.js)
           echo "isSuccess = ${{ steps.run-first-js.outputs.isSuccess}}"
+          
+      - name: Get new changes
+        if: ${{ steps.run-first-js.outputs.isSuccess == 'true'}}
+        id: new-changes
+        run: 
+          node scripts/js/secondJs.js          
 
       - name: Ensure 'main' Branch Exists and is Up-to-Date
         id: get-main
@@ -35,12 +41,6 @@ jobs:
         run: |
           git checkout -b feature/updated-files main
           echo "Branch 'feature/updated-files' create and pushed successfuly"
-
-      - name: Get new changes
-        if: ${{ steps.run-first-js.outputs.isSuccess == 'true'}}
-        id: new-changes
-        run: 
-          node scripts/js/secondJs.js
           
       - name: commit changes
         id: commit-changes
