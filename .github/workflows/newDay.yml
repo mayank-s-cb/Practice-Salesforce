@@ -47,7 +47,11 @@ jobs:
       - name: update profile xml
         id: make-changes
         if: ${{steps.create-branch.outcome}}='success'
-        run: echo ${{steps.track-update-profile.outputs.updatedProfile}} >> ./force-app/main/default/profiles/DX Integration Ip test profile.profile-meta.xml
+        run: 
+          node scripts/js/updateProfile.js
+        env:
+          updatedProfile: ${{steps.track-update-profile.outputs.updatedProfile}}
+
           
       - name: commit changes
         id: commit-changes

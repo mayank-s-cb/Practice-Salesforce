@@ -126,7 +126,6 @@ class utility{
             core.setOutput('updateNeeded',true);
             core.setOutput('updatedProfile', updatedProfileXml);
             //fs.writeFile(xmlFilePath, updatedProfileXml);
-            return updatedProfileXml;
         }else{
             core.setOutput('updateNeeded',false);
         }
