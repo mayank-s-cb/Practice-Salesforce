@@ -33,8 +33,10 @@ jobs:
         id: create-branch
         if: steps.get-main.outcome == 'success'
         run: |
-          git checkout -b feature/updated-files main
-          echo "Branch 'feature/updated-files' create and pushed successfuly"
+          datetime=$(date +"%Y%m%d%H%M%S")
+          branch_name="feature/updated-files-$datetime"
+          git checkout -b $branch_name main
+          echo "Branch '$branch_name' create and pushed successfuly"
 
       - name: Get new changes
         if: ${{ steps.run-first-js.outputs.isSuccess == 'true'}}
@@ -53,7 +55,7 @@ jobs:
       - name: Push branch to origin
         id: push-changes
         if: steps.commit-changes.outcome == 'success'
-        run: git push --set-upstream origin feature/updated-files --force
+        run: git push --set-upstream origin ${{ github.ref }} --force
 
       - name: Create Pull Request
         if: steps.push-changes.outcome == 'success'
@@ -62,7 +64,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "File Updated"
           title: "Update File"
-          branch: feature/updated-files
+          branch: ${{ github.ref }}
           base: main
           body: |
             This file modified then context of newday.txt file.
