@@ -62,4 +62,11 @@ jobs:
         if: steps.commit-changes.outcome == 'success'
         run: git push --set-upstream origin feature/updated-files --force
 
+      - name: Open Pull Request
+        if: steps.push-changes.outcome == 'success'
+        run:
+          gh pr create -B main -H feature/updated-files --title 'Merge branch_to_merge into base_branch via github action' --body 'Created by Github action'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
