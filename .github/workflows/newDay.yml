@@ -13,7 +13,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Get Dependencies
-        uses: actions/setup-node@v3
+        run: 
+          npm install cidr-calc
+          npm install @actions/core
+          npm install prettify-xml
+          npm install xml-js
 
       - name: Set up Git
         run: |
