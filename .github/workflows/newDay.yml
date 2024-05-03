@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  create-pr:
+  Make-changes:
     runs-on: ubuntu-latest
     
     steps:
@@ -61,4 +61,13 @@ jobs:
         id: push-changes
         if: steps.commit-changes.outcome == 'success'
         run: git push --set-upstream origin feature/updated-files --force
+  
+  Open-PR:
+    needs: Make-changes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Open PR
+        run: 
+          gh pr create -B main -H feature/updated-files --title 'Merge feature/updated-files into main' --body 'Created by Github action'
 
