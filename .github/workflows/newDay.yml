@@ -70,4 +70,6 @@ jobs:
       - name: Open PR
         run: 
           gh pr create -B main -H feature/updated-files --title 'Merge feature/updated-files into main' --body 'Created by Github action'
+        env:
+          GH_TOKEN: ${{ github.token }}
 
