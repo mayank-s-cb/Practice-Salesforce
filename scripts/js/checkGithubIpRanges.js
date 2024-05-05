@@ -35,8 +35,6 @@ class utility{
 
     async filterIpv4Ranges(actionIpRanges){
         const githubIpRanges = new Map();
-        let lastkey;
-            let lastvalue;
         for(const iprange of actionIpRanges){
             const ipv4range = await this.getIpRanges(iprange);
             if(await this.isIPv4(ipv4range.startIpAddr.toString())){
