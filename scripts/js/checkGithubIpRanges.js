@@ -35,12 +35,15 @@ class utility{
 
     async filterIpv4Ranges(actionIpRanges){
         const githubIpRanges = new Map();
+        let lastkey;
+            let lastvalue;
         for(const iprange of actionIpRanges){
             const ipv4range = await this.getIpRanges(iprange);
-            if(this.isIPv4(ipv4range.startIpAddr.toString())){
+            if(await this.isIPv4(ipv4range.startIpAddr.toString())){
                 githubIpRanges.set(ipv4range.startIpAddr.toString(), ipv4range.endIpAddr.toString());
             }
         }
+        console.log(lastkey +' : '+lastvalue);
         return githubIpRanges;
     }
 
@@ -52,7 +55,7 @@ class utility{
     }
 
     async isIPv4(address) {
-        const ipv4Regex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
+        const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
         return ipv4Regex.test(address);
     }  
 
@@ -114,6 +117,7 @@ class utility{
     async main(){
         var actionIpRanges = await this.getGithubIpRanges();
         const githubIpRanges = await this.filterIpv4Ranges(actionIpRanges);
+        //console.log(githubIpRanges);
         const profielXml = await this.readFile();
         const profileIpRanges = await this.convertXmlAndGetIpRange(profielXml);
         if(!await util.ipRangesUpdated(githubIpRanges,profileIpRanges)){
@@ -132,7 +136,7 @@ class utility{
     }
 }
 
-const xmlFilePath = './force-app/main/default/profiles/DX Integration Ip test profile.profile-meta.xml';
+const xmlFilePath = '/Users/mayank/Documents/Org/Practice Salesforce/force-app/main/default/profiles/DX Integration Ip test profile.profile-meta.xml';
 const githubMetaApiUrl = 'https://api.github.com/meta';
 const util = new utility(xmlFilePath, githubMetaApiUrl);
 util.main();
