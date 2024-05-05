@@ -37,7 +37,7 @@ class utility{
         const githubIpRanges = new Map();
         for(const iprange of actionIpRanges){
             const ipv4range = await this.getIpRanges(iprange);
-            if(this.isIPv4(ipv4range.startIpAddr.toString())){
+            if(await this.isIPv4(ipv4range.startIpAddr.toString())){
                 githubIpRanges.set(ipv4range.startIpAddr.toString(), ipv4range.endIpAddr.toString());
             }
         }
@@ -52,7 +52,7 @@ class utility{
     }
 
     async isIPv4(address) {
-        const ipv4Regex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
+        const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
         return ipv4Regex.test(address);
     }  
 
