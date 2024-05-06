@@ -12,7 +12,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Get Dependencies
+      - name: Getting Dependencies
         id: dependencies
         run: 
           npm install cidr-calc
@@ -20,7 +20,7 @@ jobs:
           npm install prettify-xml
           npm install xml-js
 
-      - name: Set up Git
+      - name: Setting up Git
         run: |
           git config --global user.name "Someone"
           git config --global user.email "someone@somewhere.com"
@@ -30,7 +30,7 @@ jobs:
         run: |
           git fetch origin main
 
-      - name: create new branch
+      - name: creating a new branch
         id: create-branch
         if: steps.get-main.outcome == 'success'
         run: |
@@ -43,7 +43,7 @@ jobs:
         run: 
           output=$(node scripts/js/checkGithubIpRanges.js)
 
-      - name: commit changes
+      - name: commiting changes
         id: commit-changes
         if: ${{ steps.track-update-profile.outputs.updateNeeded == 'true'}}
         run: |
@@ -51,15 +51,15 @@ jobs:
           git commit -m "Ip Ranges updated on profile"
           echo "Changes committed successfully"
 
-      - name: Push branch to origin
+      - name: Pushing branch to origin
         id: push-changes
         if: steps.commit-changes.outcome == 'success'
         run: git push --set-upstream origin feature/updated-files --force
 
-      - name: Open Pull Request
+      - name: Opening a Pull Request
         if: steps.push-changes.outcome == 'success'
         run:
-          gh pr create -B main -H feature/updated-files --title 'Merge branch_to_merge into base_branch via github action' --body 'Created by Github action'
+          gh pr create -B main -H feature/updated-files --title 'Merge gihub_updated_ip_branch into main' --body 'This PR is created to sync the DX Integration profile ip ranges with github actions ip ranges\n This PR is auto created via a scheduled github action to update profile ip ranges on regular basis'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
