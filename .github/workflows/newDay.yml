@@ -34,8 +34,9 @@ jobs:
         id: create-branch
         if: steps.get-main.outcome == 'success'
         run: |
-          BRANCH_NAME="feature/update-dx-integration-profile-ip-ranges"
-          git checkout -b "$BRANCH_NAME" main
+          BNAME="feature/update-dx-integration-profile-ip-ranges"
+          git checkout -b "$BNAME" main
+          echo "BRANCH_NAME=$BNAME" >> GITHUB_ENV
           echo "Branch '$BRANCH_NAME' created successfully"
 
       - name: Track and update github action ip ranges
