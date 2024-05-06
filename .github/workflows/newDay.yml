@@ -60,7 +60,8 @@ jobs:
       - name: Opening a Pull Request
         if: steps.push-changes.outcome == 'success'
         run:
-          gh pr create -B main -H ${{ steps.create-branch.outputs.BRANCH_NAME }} --title 'Merge gihub_updated_ip_branch into main' --body 'This PR is created to sync the DX Integration profile ip ranges with github actions ip ranges\n This PR is auto created via a scheduled github action to update profile ip ranges on regular basis'
+          branch_variable = ${{ steps.create-branch.outputs.BRANCH_NAME }}
+          gh pr create -B main -H $branch_variable --title 'Merge $branch_variable into main' --body 'This PR is created to sync the DX Integration profile ip ranges with github actions ip ranges\n This PR is auto created via a scheduled github action to update profile ip ranges on regular basis'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
