@@ -34,8 +34,9 @@ jobs:
         id: create-branch
         if: steps.get-main.outcome == 'success'
         run: |
-          git checkout -b feature/updated-files main
-          echo "Branch 'feature/updated-files' created successfully"
+          BRANCH_NAME="feature/update-dx-integration-profile-ip-ranges"
+          git checkout -b "$BRANCH_NAME" main
+          echo "Branch '$BRANCH_NAME' created successfully"
 
       - name: Track and update github action ip ranges
         id: track-update-profile
@@ -54,12 +55,12 @@ jobs:
       - name: Pushing branch to origin
         id: push-changes
         if: steps.commit-changes.outcome == 'success'
-        run: git push --set-upstream origin feature/updated-files --force
+        run: git push --set-upstream origin feature/update-dx-integration-profile-ip-ranges --force
 
       - name: Opening a Pull Request
         if: steps.push-changes.outcome == 'success'
         run:
-          gh pr create -B main -H feature/updated-files --title 'Merge gihub_updated_ip_branch into main' --body 'This PR is created to sync the DX Integration profile ip ranges with github actions ip ranges\n This PR is auto created via a scheduled github action to update profile ip ranges on regular basis'
+          gh pr create -B main -H ${{ steps.create-branch.outputs.BRANCH_NAME }} --title 'Merge gihub_updated_ip_branch into main' --body 'This PR is created to sync the DX Integration profile ip ranges with github actions ip ranges\n This PR is auto created via a scheduled github action to update profile ip ranges on regular basis'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
